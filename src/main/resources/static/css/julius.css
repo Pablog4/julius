@@ -1,0 +1,63 @@
+/* Ajustes visuais do JULIUS por cima do Bootstrap */
+:root {
+    --julius-tinta: #1d2b24;
+    --julius-verde: #2f6b4f;
+    --julius-verde-claro: #e7f0eb;
+    --julius-linha: #e3e6e1;
+    --bs-body-font-family: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --bs-body-color: var(--julius-tinta);
+}
+
+body { background: #f6f7f5; }
+
+.marca {
+    font-weight: 800;
+    letter-spacing: .02em;
+    color: var(--julius-verde);
+    text-decoration: none;
+    font-size: 1.4rem;
+}
+
+.btn-julius {
+    --bs-btn-bg: var(--julius-verde);
+    --bs-btn-border-color: var(--julius-verde);
+    --bs-btn-color: #fff;
+    --bs-btn-hover-bg: #24543d;
+    --bs-btn-hover-border-color: #24543d;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: #1d4532;
+    --bs-btn-active-color: #fff;
+}
+
+/* O total é o destaque da tela principal (RF06) */
+.total {
+    background: var(--julius-verde);
+    color: #fff;
+    border-radius: .75rem;
+    padding: 1.25rem 1.5rem;
+}
+.total-valor {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+}
+
+.painel {
+    background: #fff;
+    border: 1px solid var(--julius-linha);
+    border-radius: .75rem;
+}
+
+.valor { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.badge-categoria {
+    background: var(--julius-verde-claro);
+    color: var(--julius-verde);
+    font-weight: 600;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--julius-verde);
+    box-shadow: 0 0 0 .2rem rgba(47, 107, 79, .25);
+}
