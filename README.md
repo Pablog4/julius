@@ -1,45 +1,72 @@
-# JULIUS — Sistema Web de Controle de Gastos Pessoais
+# JULIUS - Sistema Web de Controle de Gastos Pessoais
 
-Java 17 + Spring Boot 3 + Thymeleaf + Bootstrap + Spring Data JPA + MySQL
-(exatamente a arquitetura do item 7.2 da documentação).
+Aplicação web para registrar e acompanhar gastos pessoais. O nome é uma homenagem ao Julius, pai do Chris na série *Todo Mundo Odeia o Chris*, famoso por controlar cada centavo da família.
 
-## Como rodar
+## Funcionalidades
 
-1. Instale: **JDK 17+**, **MySQL 8** e uma IDE (IntelliJ Community é a mais simples — já vem com Maven).
-2. Abra `src/main/resources/application.properties` e coloque o usuário e a senha do seu MySQL.
-   O banco `julius` e a tabela `gasto` são criados sozinhos.
-3. Na IDE: abra a pasta do projeto, espere o Maven baixar as dependências e rode `JuliusApplication`.
-   Pelo terminal: `mvn spring-boot:run`
-4. Acesse **http://localhost:8080**
+- Cadastro de gastos com descrição, categoria, valor, data e forma de pagamento
+- Listagem dos gastos cadastrados, do mais recente para o mais antigo
+- Edição e exclusão de gastos (com confirmação antes de excluir)
+- Pesquisa pela descrição
+- Filtro por categoria
+- Total dos gastos exibidos, atualizado conforme a pesquisa e o filtro
+- Validação dos campos obrigatórios e do valor (deve ser maior que zero)
+- Valores e datas no padrão brasileiro
 
-## Onde cada requisito está no código
+## Tecnologias
 
-| Requisito | Onde |
+- Java 17
+- Spring Boot 3.5 (Spring Web, Spring Data JPA, Bean Validation)
+- Thymeleaf
+- Bootstrap 5
+- MySQL / MariaDB
+
+## Como executar
+
+**Pré-requisitos:** JDK 17 ou superior e um servidor MySQL ou MariaDB (por exemplo, o do XAMPP) rodando na porta 3306.
+
+1. Clone o repositório:
+   ```
+   git clone <link-do-repositorio>
+   ```
+2. Em `src/main/resources/application.properties`, ajuste o usuário e a senha do banco:
+   ```
+   spring.datasource.username=root
+   spring.datasource.password=
+   ```
+   O banco `julius` e a tabela `gasto` são criados automaticamente na primeira execução.
+3. Execute a classe `JuliusApplication` pela IDE, ou pelo terminal com `mvn spring-boot:run`.
+4. Acesse http://localhost:8080
+
+## Estrutura do projeto
+
+```
+src/main/java/br/com/julius
+├── model/          # Entidade Gasto e enums Categoria e FormaPagamento
+├── repository/     # Acesso ao banco com Spring Data JPA
+└── controller/     # Rotas e regras da aplicação
+
+src/main/resources
+├── templates/gastos/   # Telas: lista.html e form.html
+├── static/css/         # Estilos
+└── application.properties
+```
+
+## Requisitos atendidos
+
+| Requisito | Descrição |
 |---|---|
-| RF01 Cadastrar | `GastoController.novo()` + `cadastrar()` · `form.html` |
-| RF02 Listar | `GastoController.listar()` · `lista.html` |
-| RF03 Editar | `GastoController.editar()` + `atualizar()` · `form.html` |
-| RF04 Excluir | `GastoController.excluir()` · botão Excluir em `lista.html` |
-| RF05 Pesquisar | `GastoRepository.findByDescricaoContaining...` |
-| RF06 Filtrar e totalizar | `GastoRepository...AndCategoria...` + soma no `listar()` |
-| RNF03 Banco relacional | `application.properties` (MySQL) |
-| RNF04 Validação | anotações `@NotBlank`, `@NotNull`, `@DecimalMin` em `Gasto.java` + `@Valid` no controller |
-| RNF05 Padrão brasileiro | `spring.web.locale=pt_BR` + `#numbers.formatCurrency` e `dd/MM/yyyy` |
-| RN001 Campos obrigatórios | `Gasto.java` |
-| RN002 Valor > 0 | `@DecimalMin("0.01")` em `Gasto.java` |
-| RN003 Categorias | `Categoria.java` (enum) |
-| RN004 Alteração/exclusão | `existsById` no controller + `confirm()` no botão Excluir |
+| RF01 | Cadastrar gasto |
+| RF02 | Listar gastos |
+| RF03 | Editar gasto |
+| RF04 | Excluir gasto |
+| RF05 | Pesquisar gasto pela descrição |
+| RF06 | Filtrar por categoria e totalizar |
+| RN001 | Descrição, categoria, valor e data obrigatórios |
+| RN002 | Valor numérico e maior que zero |
+| RN003 | Gasto associado a uma categoria do sistema |
+| RN004 | Alteração e exclusão apenas de gastos existentes, com confirmação na exclusão |
 
-## Fluxo de uma requisição (o que explicar na apresentação)
+## Autor
 
-```
-Navegador  →  Controller  →  Repository  →  MySQL
-   ↑              │
-   └── Template (Thymeleaf) ←┘
-```
-
-1. O usuário clica em algo → o navegador faz um GET ou POST para uma URL.
-2. O **Controller** recebe (ex.: `@PostMapping("/gastos")`).
-3. O **Repository** conversa com o banco (o Spring gera o SQL pelo nome do método).
-4. O Controller coloca os dados no `Model` e devolve o nome do **template**.
-5. O Thymeleaf monta o HTML e o navegador mostra.
+Pablo Gabriel- [github.com/Pablog4](https://github.com/Pablog4)
